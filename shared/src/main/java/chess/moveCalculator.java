@@ -10,11 +10,11 @@ public class moveCalculator {
         Collection<ChessMove> moves = new ArrayList<>();
         return switch (piece.getPieceType()) {
             case BISHOP -> bishopMoves(board, position, moves);
-            case KING -> kingMoves(board, position);
-            case KNIGHT -> knightMoves(board, position);
-            case PAWN -> pawnMoves(board, position);
-            case QUEEN -> queenMoves(board, position);
-            case ROOK -> rookMoves(board, position);
+            case KING -> kingMoves(board, position, moves);
+            case KNIGHT -> knightMoves(board, position, moves);
+            case PAWN -> pawnMoves(board, position, moves);
+            case QUEEN -> queenMoves(board, position, moves);
+            case ROOK -> rookMoves(board, position, moves);
         };
     }
 
@@ -51,23 +51,31 @@ public class moveCalculator {
         return moves;
     }
 
-    private static Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition position) {
+    private static Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
         return null;
     }
 
-    private static Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition position) {
+    private static Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
         return null;
     }
 
-    private static Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition position) {
+    private static Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
         return null;
     }
 
-    private static Collection<ChessMove> queenMoves(ChessBoard board, ChessPosition position) {
-        return null;
+    private static Collection<ChessMove> queenMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
+        int[][] directions = new int[][]{{1, 1}, {-1, 1}, {-1, -1}, {1, -1}, {1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        for (int[] direction : directions){
+            moves.addAll(straightLine(position, board, direction));
+        }
+        return moves;
     }
 
-    private static Collection<ChessMove> rookMoves(ChessBoard board, ChessPosition position) {
-        return null;
+    private static Collection<ChessMove> rookMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
+        int[][] directions = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        for (int[] direction : directions){
+            moves.addAll(straightLine(position, board, direction));
+        }
+        return moves;
     }
 }
