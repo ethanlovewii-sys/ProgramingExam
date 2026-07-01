@@ -52,9 +52,9 @@ public class moveCalculator {
     }
 
     private static Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
-        int[][] directions = new int[][]{{1, 1}, {-1, 1}, {-1, -1}, {1, -1}, {1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-        for (int[] direction : directions){
-            ChessPosition newPosition = new ChessPosition(position.getRow() + direction[0], position.getColumn() + direction[1]);
+        int[][] possibleMoves = new int[][]{{1, 1}, {-1, 1}, {-1, -1}, {1, -1}, {1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        for (int[] move : possibleMoves){
+            ChessPosition newPosition = new ChessPosition(position.getRow() + move[0], position.getColumn() + move[1]);
             if (isValidPosition(newPosition, board, position)){
                 moves.add(new ChessMove(position, newPosition, null));
             }
@@ -63,7 +63,14 @@ public class moveCalculator {
     }
 
     private static Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
-        return null;
+        int[][] possibleMoves = new int[][]{{2, 1}, {2, -1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {1, -2}, {-1, -2}};
+        for (int[] move : possibleMoves){
+            ChessPosition newPosition = new ChessPosition(position.getRow() + move[0], position.getColumn() + move[1]);
+            if (isValidPosition(newPosition, board, position)){
+                moves.add(new ChessMove(position, newPosition, null));
+            }
+        }
+        return moves;
     }
 
     private static Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
