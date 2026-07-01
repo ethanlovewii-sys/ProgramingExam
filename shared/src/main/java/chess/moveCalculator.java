@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class moveCalculator {
 
@@ -76,6 +77,7 @@ public class moveCalculator {
     private static Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
         ChessGame.TeamColor moversColor = board.getPiece(position).getTeamColor();
         ChessPosition frontSpace;
+        ChessPosition doubleSpace;
         int row = position.getRow();
         int col = position.getColumn();
 
@@ -83,6 +85,10 @@ public class moveCalculator {
             frontSpace = new ChessPosition(row + 1, col);
             if (board.getPiece(frontSpace) == null){
                 moves.add(new ChessMove(position, frontSpace, null));
+                doubleSpace = new ChessPosition(row + 2, col);
+                if (row == 2 && board.getPiece(doubleSpace) == null){
+                    moves.add(new ChessMove(position, doubleSpace, null));
+                }
             }
         }
 
@@ -90,6 +96,10 @@ public class moveCalculator {
             frontSpace = new ChessPosition(row - 1, col);
             if (board.getPiece(frontSpace) == null){
                 moves.add(new ChessMove(position, frontSpace, null));
+                doubleSpace = new ChessPosition(row - 2, col);
+                if (row == 7 && board.getPiece(doubleSpace) == null){
+                    moves.add(new ChessMove(position, doubleSpace, null));
+                }
             }
         }
 
@@ -109,6 +119,19 @@ public class moveCalculator {
                     moves.add(new ChessMove(position, rightSpace, null));
                 }
             }
+        }
+
+        if (frontSpace.getRow() == 8 || frontSpace.getRow() == 1){
+            Collection<ChessMove> promotionMoves = new ArrayList<>();
+            for (ChessMove move : moves){
+                ChessPosition startPosition = move.getStartPosition();
+                ChessPosition endPosition = move.getEndPosition();
+                promotionMoves.add(new ChessMove(startPosition, endPosition, ChessPiece.PieceType.QUEEN));
+                promotionMoves.add(new ChessMove(startPosition, endPosition, ChessPiece.PieceType.ROOK));
+                promotionMoves.add(new ChessMove(startPosition, endPosition, ChessPiece.PieceType.KNIGHT));
+                promotionMoves.add(new ChessMove(startPosition, endPosition, ChessPiece.PieceType.BISHOP));
+            }
+            return promotionMoves;
         }
 
         return moves;
