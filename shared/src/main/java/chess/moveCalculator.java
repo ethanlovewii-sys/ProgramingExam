@@ -74,7 +74,44 @@ public class moveCalculator {
     }
 
     private static Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
-        return null;
+        ChessGame.TeamColor moversColor = board.getPiece(position).getTeamColor();
+        ChessPosition frontSpace;
+        int row = position.getRow();
+        int col = position.getColumn();
+
+        if (moversColor == ChessGame.TeamColor.WHITE){
+            frontSpace = new ChessPosition(row + 1, col);
+            if (board.getPiece(frontSpace) == null){
+                moves.add(new ChessMove(position, frontSpace, null));
+            }
+        }
+
+        else{
+            frontSpace = new ChessPosition(row - 1, col);
+            if (board.getPiece(frontSpace) == null){
+                moves.add(new ChessMove(position, frontSpace, null));
+            }
+        }
+
+        if (col > 1){
+            ChessPosition leftSpace = new ChessPosition(frontSpace.getRow(), frontSpace.getColumn() - 1);
+            if (board.getPiece(leftSpace) != null){
+                if (isValidPosition(leftSpace, board, position)){
+                    moves.add(new ChessMove(position, leftSpace, null));
+                }
+            }
+        }
+
+        if (col < 8){
+            ChessPosition rightSpace = new ChessPosition(frontSpace.getRow(), frontSpace.getColumn() + 1);
+            if (board.getPiece(rightSpace) != null){
+                if (isValidPosition(rightSpace, board, position)){
+                    moves.add(new ChessMove(position, rightSpace, null));
+                }
+            }
+        }
+
+        return moves;
     }
 
     private static Collection<ChessMove> queenMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
