@@ -52,7 +52,14 @@ public class moveCalculator {
     }
 
     private static Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
-        return null;
+        int[][] directions = new int[][]{{1, 1}, {-1, 1}, {-1, -1}, {1, -1}, {1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        for (int[] direction : directions){
+            ChessPosition newPosition = new ChessPosition(position.getRow() + direction[0], position.getColumn() + direction[1]);
+            if (isValidPosition(newPosition, board, position)){
+                moves.add(new ChessMove(position, newPosition, null));
+            }
+        }
+        return moves;
     }
 
     private static Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition position, Collection<ChessMove> moves) {
